@@ -14,7 +14,12 @@ export default class SnakeMap {
                 throw new Error('Invalid map format')
             }
             line.split('').forEach((elem: string, colIdx: number) => {
-                this.cells.set(pos(rowIdx + 1, colIdx + 1).asString(), elem)
+                const position = pos(rowIdx + 1, colIdx + 1)
+                if ('x' === elem) {
+                    this.cells.set(position.toString(), 'x')
+                    return
+                }
+                this.cells.set(position.toString(), ' ')
             })
         })
     }
@@ -28,7 +33,7 @@ export default class SnakeMap {
     }
 
     public cell(position: Position): string {
-        return this.cells.get(position.asString())
+        return this.cells.get(position.toString())
     }
 
 }

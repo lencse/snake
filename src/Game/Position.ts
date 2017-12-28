@@ -16,11 +16,13 @@ export class Position {
         return this.column
     }
 
-    public asString(): string {
-        // return '3,2'
+    public toString(): string {
         return `${this.row},${this.column}`
     }
 
+    public equals(other: Position): boolean {
+        return other.column === this.column && other.row === this.row
+    }
 }
 
 export function pos(row: number, column: number): Position {
