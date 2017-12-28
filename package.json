@@ -1,0 +1,25 @@
+{
+  "name": "snake",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Levente Löki <leventeloki@gmail.com>",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1",
+    "mocha-typescript": "^1.1.12",
+    "typescript": "^2.6.2"
+  },
+  "scripts": {
+    "build-typescript": "tsc -p . --outDir ./build",
+    "clean": "rm -rf build dist",
+    "build": "yarn run clean && yarn build-typescript",
+    "test": "mocha build/test",
+    "build-test": "yarn build && yarn test",
+    "watch-typescript": "tsc -p . --outDir ./build --watch",
+    "watch": "yarn run clean && yarn watch-typescript",
+    "watch-test": "mocha --watch build/test",
+    "watch-build-test": "yarn watch & yarn watch-test"
+  }
+}
