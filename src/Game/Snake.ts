@@ -20,4 +20,8 @@ export class Snake {
         return this.positions[0]
     }
 
+    public getPositions(): Position[] {
+        return [...this.positions]
+    }
+
 }

@@ -22,6 +22,7 @@ import Game from '../src/Game/Game'
         const game = new Game(this.createMap())
         assert.isTrue(game.isFree(pos(2, 2)))
         assert.isFalse(game.isFree(pos(2, 3)))
+        assert.isFalse(game.isFree(pos(5, 2)))
     }
 
     @test private snake() {
