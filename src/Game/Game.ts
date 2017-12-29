@@ -45,8 +45,9 @@ export default class Game {
     }
 
     public turn(direction: string): Game {
-        const turns = this.itsState.turns
-        turns.push(direction)
+        const turns = direction === this.itsState.turns.pop() || this.opposite(direction)
+            ? this.itsState.turns
+            : this.itsState.turns.concat([direction])
         return new Game(
             this.itsState.transform({
                 direction: this.itsState.direction,
@@ -71,6 +72,13 @@ export default class Game {
 
     public get growth(): number {
         return this.itsState.growth
+    }
+
+    private opposite(direction: string): boolean {
+        return 'l' === direction && 'r' === this.direction
+            || 'r' === direction && 'l' === this.direction
+            || 'u' === direction && 'd' === this.direction
+            || 'd' === direction && 'u' === this.direction
     }
 
 }

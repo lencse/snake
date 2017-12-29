@@ -102,6 +102,18 @@ import Game from '../src/Game/Game'
         assert.isTrue(pos(3, 3).equals(game.snake.head))
     }
 
+    @test public dontHandleTurnIfSmaeAsPrevious() {
+        let game = Game.start(this.smallMap).step()
+        game = game.turn('r').turn('r').turn('u').step().step()
+        assert.isTrue(pos(3, 3).equals(game.snake.head))
+    }
+
+    @test public dontAllowOppositeDirection() {
+        let game = Game.start(this.smallMap)
+        game = game.turn('d').step()
+        assert.isTrue(pos(4, 2).equals(game.snake.head))
+    }
+
     @test public snake() {
         const snake = new Snake([
             pos(1, 2),
