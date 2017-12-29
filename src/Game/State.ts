@@ -1,15 +1,7 @@
 import SnakeMap from './SnakeMap'
 import { Position  } from './Position'
 import { Snake } from './Snake'
-
-interface StateDelta {
-
-    map: SnakeMap
-    snake: Snake
-    growth: number
-    direction: string
-
-}
+import { assign } from 'lodash'
 
 export default class State {
 
@@ -55,26 +47,14 @@ export default class State {
         return this.direction
     }
 
-    public transform(attributes: StateDelta): State {
+    public transform(attributes: object): State {
         const result = new State(
             this.map,
             this.snake,
             this.direction,
             this.growth
         )
-        if (null !== attributes.map) {
-            result.map = attributes.map
-        }
-        if (null !== attributes.snake) {
-            result.snake = attributes.snake
-        }
-        if (null !== attributes.direction) {
-            result.direction = attributes.direction
-        }
-        if (null !== attributes.growth) {
-            result.growth = attributes.growth
-        }
-        return result
+        return assign(result, attributes)
     }
 
 }

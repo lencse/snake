@@ -26,14 +26,16 @@ export default class Game {
     }
 
     public step(): Game {
+        const growth = this.state.getGrowth()
+        const direction = this.state.getDirection()
+        const snake = 0 === growth
+            ? this.state.getSnake().move(direction)
+            : this.state.getSnake().grow(direction)
         return new Game(
             this.state.transform({
-                map: null,
-                snake: 0 === this.state.getGrowth()
-                    ? this.state.getSnake().move(this.state.getDirection())
-                    : this.state.getSnake().grow(this.state.getDirection()),
-                direction: null,
-                growth: Math.max(0, this.state.getGrowth() - 1)
+                direction,
+                snake,
+                growth: Math.max(0, growth - 1)
             })
         )
     }
