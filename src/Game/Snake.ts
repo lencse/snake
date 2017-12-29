@@ -24,4 +24,14 @@ export class Snake {
         return [...this.positions]
     }
 
+    public equals(other: Snake): boolean {
+        let result = true
+        this.positions.forEach((position: Position, idx: number) => {
+            if (!position.equals(other.positions[idx])) {
+                result = false
+            }
+        })
+        return result
+    }
+
 }

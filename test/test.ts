@@ -19,10 +19,13 @@ import Game from '../src/Game/Game'
     }
 
     @test private game() {
-        const game = new Game(this.createMap())
+        const game = Game.start(this.createMap())
         assert.isTrue(game.isFree(pos(2, 2)))
         assert.isFalse(game.isFree(pos(2, 3)))
         assert.isFalse(game.isFree(pos(5, 2)))
+        assert.equal(4, game.getGrowth())
+        assert.equal('u', game.getDirection())
+        assert.isTrue(new Snake([pos(5, 2)]).equals(game.getSnake()))
     }
 
     @test private snake() {
