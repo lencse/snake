@@ -13,7 +13,7 @@ export class Snake {
     }
 
     public getHead(): Position {
-        return this.positions.slice(-1).pop()
+        return [...this.positions].pop()
     }
 
     public getTail(): Position {

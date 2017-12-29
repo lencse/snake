@@ -11,8 +11,8 @@ import { Snake } from '../src/Game/Snake'
             'xxxxx',
             'x x x',
             'x   x',
-            'x 2 x',
-            'x01 x',
+            'x   x',
+            'xu  x',
             'xxxxx',
         ])
         assert.equal(6, map.getHeight())
@@ -20,6 +20,8 @@ import { Snake } from '../src/Game/Snake'
         assert.equal(' ', map.cell(pos(3, 2)))
         assert.equal('x', map.cell(pos(2, 3)))
         assert.equal(' ', map.cell(pos(5, 2)))
+        assert.isTrue(pos(5, 2).equals(map.getStartingPosition()))
+        assert.equal('u', map.getStartingDirection())
     }
 
     @test private snake() {

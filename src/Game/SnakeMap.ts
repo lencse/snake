@@ -5,6 +5,8 @@ export default class SnakeMap {
     private width: number
     private height: number
     private cells: Map<string, string> = new Map<string, string>()
+    private startingPosition: Position
+    private startingDirection: string
 
     constructor(spec: string[]) {
         this.height = spec.length
@@ -18,6 +20,10 @@ export default class SnakeMap {
                 if ('x' === elem) {
                     this.cells.set(position.toString(), 'x')
                     return
+                }
+                if (['u', 'd', 'l', 'r'].find((needle) => elem === needle) !== undefined) {
+                    this.startingPosition = position
+                    this.startingDirection = elem
                 }
                 this.cells.set(position.toString(), ' ')
             })
@@ -34,6 +40,14 @@ export default class SnakeMap {
 
     public cell(position: Position): string {
         return this.cells.get(position.toString())
+    }
+
+    public getStartingPosition(): Position {
+        return this.startingPosition
+    }
+
+    public getStartingDirection(): string {
+        return this.startingDirection
     }
 
 }
