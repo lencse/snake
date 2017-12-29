@@ -4,9 +4,7 @@
   "main": "index.js",
   "author": "Levente Löki <leventeloki@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "lodash": "^4.17.4"
-  },
+  "dependencies": {},
   "devDependencies": {
     "chai": "^4.1.2",
     "mocha": "^4.0.1",

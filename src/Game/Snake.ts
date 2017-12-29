@@ -2,35 +2,35 @@ import { pos, Position } from './Position'
 
 export class Snake {
 
-    private positions: Position[]
+    private itsPositions: Position[]
 
     constructor(positions: Position[]) {
-        this.positions = positions
+        this.itsPositions = positions
     }
 
-    public getLength(): number {
-        return this.positions.length
+    public get length(): number {
+        return this.itsPositions.length
     }
 
-    public getHead(): Position {
-        return [...this.positions].pop()
+    public get head(): Position {
+        return [...this.itsPositions].pop()
     }
 
-    public getTail(): Position {
-        return this.positions[0]
+    public get tail(): Position {
+        return this.itsPositions[0]
     }
 
-    public getPositions(): Position[] {
-        return [...this.positions]
+    public get positions(): Position[] {
+        return [...this.itsPositions]
     }
 
     public equals(other: Snake): boolean {
-        if (other.positions.length !== this.positions.length) {
+        if (other.itsPositions.length !== this.itsPositions.length) {
             return false
         }
         let result = true
-        this.positions.forEach((position: Position, idx: number) => {
-            if (!position.equals(other.positions[idx])) {
+        this.itsPositions.forEach((position: Position, idx: number) => {
+            if (!position.equals(other.itsPositions[idx])) {
                 result = false
             }
         })
@@ -38,15 +38,15 @@ export class Snake {
     }
 
     public grow(direction: string): Snake {
-        const positions = [...this.positions]
-        positions.push(this.getHead().neighbour(direction))
+        const positions = [...this.itsPositions]
+        positions.push(this.head.neighbour(direction))
 
         return new Snake(positions)
     }
 
     public move(direction: string): Snake {
-        const positions = [...this.positions.slice(1)]
-        positions.push(this.getHead().neighbour(direction))
+        const positions = [...this.itsPositions.slice(1)]
+        positions.push(this.head.neighbour(direction))
 
         return new Snake(positions)
     }

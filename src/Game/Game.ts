@@ -9,30 +9,30 @@ export default class Game {
         return new Game(State.init(map))
     }
 
-    private state: State
+    private itsState: State
 
     private constructor(state: State) {
-        this.state = state
+        this.itsState = state
     }
 
     public isFree(position: Position): boolean {
-        if ('x' === this.state.getMap().cell(position)) {
+        if ('x' === this.itsState.map.cell(position)) {
             return false
         }
-        if (this.state.getSnake().getPositions().find((needle: Position) => needle.equals(position)) !== undefined) {
+        if (this.itsState.snake.positions.find((needle: Position) => needle.equals(position)) !== undefined) {
             return false
         }
         return true
     }
 
     public step(): Game {
-        const growth = this.state.getGrowth()
-        const direction = this.state.getDirection()
+        const growth = this.itsState.growth
+        const direction = this.itsState.direction
         const snake = 0 === growth
-            ? this.state.getSnake().move(direction)
-            : this.state.getSnake().grow(direction)
+            ? this.itsState.snake.move(direction)
+            : this.itsState.snake.grow(direction)
         return new Game(
-            this.state.transform({
+            this.itsState.transform({
                 direction,
                 snake,
                 growth: Math.max(0, growth - 1)
@@ -40,8 +40,8 @@ export default class Game {
         )
     }
 
-    public getState(): State {
-        return this.state
+    public get state(): State {
+        return this.itsState
     }
 
 }

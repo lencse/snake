@@ -1,19 +1,19 @@
 export class Position {
 
-    private row: number
-    private column: number
+    private itsRow: number
+    private itsColumn: number
 
     constructor(row: number, column: number) {
-        this.row = row
-        this.column = column
+        this.itsRow = row
+        this.itsColumn = column
     }
 
-    public getRow(): number {
-        return this.row
+    public get row(): number {
+        return this.itsRow
     }
 
-    public getColumn(): number {
-        return this.column
+    public get column(): number {
+        return this.itsColumn
     }
 
     public toString(): string {
@@ -21,21 +21,21 @@ export class Position {
     }
 
     public equals(other: Position): boolean {
-        return other.column === this.column && other.row === this.row
+        return other.itsColumn === this.itsColumn && other.itsRow === this.itsRow
     }
 
     public neighbour(direction: string): Position {
         if ('u' === direction) {
-            return pos(this.getRow() - 1, this.getColumn())
+            return pos(this.row - 1, this.column)
         }
         if ('d' === direction) {
-            return pos(this.getRow() + 1, this.getColumn())
+            return pos(this.row + 1, this.column)
         }
         if ('l' === direction) {
-            return pos(this.getRow(), this.getColumn() - 1)
+            return pos(this.row, this.column - 1)
         }
         if ('r' === direction) {
-            return pos(this.getRow(), this.getColumn() + 1)
+            return pos(this.row, this.column + 1)
         }
     }
 }

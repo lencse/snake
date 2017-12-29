@@ -1,7 +1,14 @@
 import SnakeMap from './SnakeMap'
 import { Position  } from './Position'
 import { Snake } from './Snake'
-import { assign } from 'lodash'
+
+interface StateAttributes {
+
+    snake: Snake,
+    direction: string,
+    growth: number
+
+}
 
 export default class State {
 
@@ -14,10 +21,10 @@ export default class State {
         )
     }
 
-    private map: SnakeMap
-    private snake: Snake
-    private growth: number
-    private direction: string
+    private itsMap: SnakeMap
+    private itsSnake: Snake
+    private itsGrowth: number
+    private itsDirection: string
 
     private constructor(
         map: SnakeMap,
@@ -25,36 +32,35 @@ export default class State {
         direction: string,
         growth: number
     ) {
-        this.map = map
-        this.snake = snake
-        this.direction = direction
-        this.growth = growth
+        this.itsMap = map
+        this.itsSnake = snake
+        this.itsDirection = direction
+        this.itsGrowth = growth
     }
 
-    public getMap(): SnakeMap {
-        return this.map
+    public get map(): SnakeMap {
+        return this.itsMap
     }
 
-    public getSnake(): Snake {
-        return this.snake
+    public get snake(): Snake {
+        return this.itsSnake
     }
 
-    public getGrowth(): number {
-        return this.growth
+    public get growth(): number {
+        return this.itsGrowth
     }
 
-    public getDirection(): string {
-        return this.direction
+    public get direction(): string {
+        return this.itsDirection
     }
 
-    public transform(attributes: object): State {
-        const result = new State(
-            this.map,
-            this.snake,
-            this.direction,
-            this.growth
+    public transform(attributes: StateAttributes): State {
+        return new State(
+            this.itsMap,
+            attributes.snake,
+            attributes.direction,
+            attributes.growth
         )
-        return assign(result, attributes)
     }
 
 }
