@@ -114,6 +114,12 @@ import Game from '../src/Game/Game'
         assert.isTrue(pos(4, 2).equals(game.snake.head))
     }
 
+    @test public goThroughWall() {
+        let game = Game.start(this.largeEmptyMap)
+        game = game.turn('r').turn('u').step().step()
+        assert.isTrue(pos(20, 3).equals(game.snake.head))
+    }
+
     @test public snake() {
         const snake = new Snake([
             pos(1, 2),

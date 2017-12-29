@@ -37,16 +37,16 @@ export class Snake {
         return result
     }
 
-    public grow(direction: string): Snake {
+    public grow(next: Position): Snake {
         const positions = [...this.itsPositions]
-        positions.push(this.head.neighbour(direction))
+        positions.push(next)
 
         return new Snake(positions)
     }
 
-    public move(direction: string): Snake {
-        const positions = [...this.itsPositions.slice(1)]
-        positions.push(this.head.neighbour(direction))
+    public move(next: Position): Snake {
+        const positions = this.itsPositions.slice(1)
+        positions.push(next)
 
         return new Snake(positions)
     }

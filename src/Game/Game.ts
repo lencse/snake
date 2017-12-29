@@ -1,5 +1,5 @@
 import SnakeMap from './SnakeMap'
-import { Position  } from './Position'
+import { Position, pos } from './Position'
 import { Snake } from './Snake'
 import State from './State'
 
@@ -31,9 +31,22 @@ export default class Game {
         const direction = 0 === turns.length
             ? this.itsState.direction
             : turns[0]
+        let next = this.snake.head.neighbour(direction)
+        if (0 === next.row) {
+            next = pos(this.map.height, next.column)
+        }
+        if (this.map.height + 1 === next.row) {
+            next = pos(1, next.column)
+        }
+        if (0 === next.column) {
+            next = pos(next.row, this.map.width)
+        }
+        if (this.map.width + 1 === next.column) {
+            next = pos(next.row, 1)
+        }
         const snake = 0 === growth
-            ? this.itsState.snake.move(direction)
-            : this.itsState.snake.grow(direction)
+            ? this.itsState.snake.move(next)
+            : this.itsState.snake.grow(next)
         return new Game(
             this.itsState.transform({
                 direction,
@@ -75,10 +88,13 @@ export default class Game {
     }
 
     private opposite(direction: string): boolean {
-        return 'l' === direction && 'r' === this.direction
-            || 'r' === direction && 'l' === this.direction
-            || 'u' === direction && 'd' === this.direction
-            || 'd' === direction && 'u' === this.direction
+        const current = 0 === this.itsState.turns.length
+            ? this.direction
+            : this.itsState.turns.pop()
+        return 'l' === direction && 'r' === current
+            || 'r' === direction && 'l' === current
+            || 'u' === direction && 'd' === current
+            || 'd' === direction && 'u' === current
     }
 
 }
