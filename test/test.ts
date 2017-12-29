@@ -28,6 +28,19 @@ import Game from '../src/Game/Game'
         assert.isTrue(new Snake([pos(5, 2)]).equals(game.getSnake()))
     }
 
+    @test private step() {
+        const game = Game.start(this.createMap()).step()
+        assert.isFalse(game.isFree(pos(5, 2)))
+        assert.isFalse(game.isFree(pos(4, 2)))
+        assert.equal(3, game.getGrowth())
+        assert.equal('u', game.getDirection())
+        assert.equal(2, game.getSnake().getLength())
+        assert.isTrue(new Snake([
+            pos(5, 2),
+            pos(4, 2)
+        ]).equals(game.getSnake()))
+    }
+
     @test private snake() {
         const snake = new Snake([
             pos(1, 2),

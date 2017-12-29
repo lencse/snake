@@ -8,19 +8,26 @@ export default class Game {
         return new Game(
             map,
             new Snake([map.getStartingPosition()]),
-            map.getStartingDirection()
+            map.getStartingDirection(),
+            4
         )
     }
 
     private map: SnakeMap
     private snake: Snake
-    private growth: number = 4
+    private growth: number
     private direction: string
 
-    private constructor(map: SnakeMap, snake: Snake, direction: string) {
+    private constructor(
+        map: SnakeMap,
+        snake: Snake,
+        direction: string,
+        growth: number
+    ) {
         this.map = map
         this.snake = snake
         this.direction = direction
+        this.growth = growth
     }
 
     public isFree(position: Position): boolean {
@@ -43,6 +50,17 @@ export default class Game {
 
     public getSnake(): Snake {
         return this.snake
+    }
+
+    public step(): Game {
+        return new Game(
+            this.map,
+            0 === this.growth
+                ? this.snake
+                : this.snake.grow(this.getDirection()),
+            this.direction,
+            Math.max(0, this.growth - 1)
+        )
     }
 
 }

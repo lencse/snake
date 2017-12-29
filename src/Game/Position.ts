@@ -23,6 +23,10 @@ export class Position {
     public equals(other: Position): boolean {
         return other.column === this.column && other.row === this.row
     }
+
+    public neighbour(direction: string): Position {
+        return pos(this.getRow() - 1, this.getColumn())
+    }
 }
 
 export function pos(row: number, column: number): Position {
