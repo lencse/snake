@@ -8,7 +8,7 @@ import Game from '../src/Game/Game'
 @suite class SnakeTest {
 
     @test private map() {
-        const map = this.createMap()
+        const map = this.smallMap()
         assert.equal(6, map.getHeight())
         assert.equal(5, map.getWidth())
         assert.equal(' ', map.cell(pos(3, 2)))
@@ -19,26 +19,41 @@ import Game from '../src/Game/Game'
     }
 
     @test private game() {
-        const game = Game.start(this.createMap())
+        const game = Game.start(this.smallMap())
         assert.isTrue(game.isFree(pos(2, 2)))
         assert.isFalse(game.isFree(pos(2, 3)))
         assert.isFalse(game.isFree(pos(5, 2)))
-        assert.equal(4, game.getGrowth())
-        assert.equal('u', game.getDirection())
-        assert.isTrue(new Snake([pos(5, 2)]).equals(game.getSnake()))
+        assert.equal(4, game.getState().getGrowth())
+        assert.equal('u', game.getState().getDirection())
+        assert.isTrue(new Snake([pos(5, 2)]).equals(game.getState().getSnake()))
     }
 
     @test private step() {
-        const game = Game.start(this.createMap()).step()
+        const game = Game.start(this.smallMap()).step()
         assert.isFalse(game.isFree(pos(5, 2)))
         assert.isFalse(game.isFree(pos(4, 2)))
-        assert.equal(3, game.getGrowth())
-        assert.equal('u', game.getDirection())
-        assert.equal(2, game.getSnake().getLength())
+        assert.equal(3, game.getState().getGrowth())
+        assert.equal('u', game.getState().getDirection())
+        assert.equal(2, game.getState().getSnake().getLength())
         assert.isTrue(new Snake([
             pos(5, 2),
             pos(4, 2)
-        ]).equals(game.getSnake()))
+        ]).equals(game.getState().getSnake()))
+    }
+
+    @test private manyStep() {
+        const initial = Game.start(this.largeEmptyMap())
+        assert.equal(20, initial.getState().getMap().getHeight())
+        let game = initial
+        for (let i = 0; i < 4; ++i) {
+            game = game.step()
+        }
+        assert.equal(5, game.getState().getSnake().getLength())
+        assert.isTrue(pos(5, 2).equals(game.getState().getSnake().getHead()))
+        game = game.step()
+        assert.equal(5, game.getState().getSnake().getLength())
+        assert.isTrue(pos(6, 2).equals(game.getState().getSnake().getHead()))
+        assert.isTrue(pos(2, 2).equals(game.getState().getSnake().getTail()))
     }
 
     @test private snake() {
@@ -51,9 +66,10 @@ import Game from '../src/Game/Game'
         assert.isTrue(pos(2, 3).equals(snake.getHead()))
         assert.isTrue(pos(2, 3).equals(snake.getHead()))
         assert.isTrue(pos(1, 2).equals(snake.getTail()))
+
     }
 
-    private createMap(): SnakeMap {
+    private smallMap(): SnakeMap {
         return new SnakeMap([
             'xxxxx',
             'x x x',
@@ -61,6 +77,31 @@ import Game from '../src/Game/Game'
             'x   x',
             'xu  x',
             'xxxxx',
+        ])
+    }
+
+    private largeEmptyMap(): SnakeMap {
+        return new SnakeMap([
+            ' d                  ',
+            '                    ',
+            '                    ',
+            '                    ',
+            '                    ',
+            '                    ',
+            '                    ',
+            '                    ',
+            '                    ',
+            '                    ',
+            '                    ',
+            '                    ',
+            '                    ',
+            '                    ',
+            '                    ',
+            '                    ',
+            '                    ',
+            '                    ',
+            '                    ',
+            '                    ',
         ])
     }
 

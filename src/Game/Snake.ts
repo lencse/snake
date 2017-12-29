@@ -44,4 +44,11 @@ export class Snake {
         return new Snake(positions)
     }
 
+    public move(direction: string): Snake {
+        const positions = [...this.positions.slice(1)]
+        positions.push(this.getHead().neighbour(direction))
+
+        return new Snake(positions)
+    }
+
 }

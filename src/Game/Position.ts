@@ -25,7 +25,18 @@ export class Position {
     }
 
     public neighbour(direction: string): Position {
-        return pos(this.getRow() - 1, this.getColumn())
+        if ('u' === direction) {
+            return pos(this.getRow() - 1, this.getColumn())
+        }
+        if ('d' === direction) {
+            return pos(this.getRow() + 1, this.getColumn())
+        }
+        if ('l' === direction) {
+            return pos(this.getRow(), this.getColumn() - 1)
+        }
+        if ('r' === direction) {
+            return pos(this.getRow(), this.getColumn() + 1)
+        }
     }
 }
 
