@@ -32,6 +32,7 @@ export default class Game {
             ? this.itsState.direction
             : turns[0]
         let next = this.snake.head.neighbour(direction)
+        const end = !this.isFree(next)
         if (0 === next.row) {
             next = pos(this.map.height, next.column)
         }
@@ -44,15 +45,18 @@ export default class Game {
         if (this.map.width + 1 === next.column) {
             next = pos(next.row, 1)
         }
-        const snake = 0 === growth
-            ? this.itsState.snake.move(next)
-            : this.itsState.snake.grow(next)
+        const snake = end
+            ? this.itsState.snake
+            : 0 === growth
+                ? this.itsState.snake.move(next)
+                : this.itsState.snake.grow(next)
         return new Game(
             this.itsState.transform({
                 direction,
                 snake,
                 growth: Math.max(0, growth - 1),
-                turns: this.itsState.turns.slice(1)
+                turns: this.itsState.turns.slice(1),
+                end
             })
         )
     }
@@ -67,6 +71,7 @@ export default class Game {
                 snake: this.itsState.snake,
                 growth: this.itsState.growth,
                 turns,
+                end: this.itsState.end
             })
         )
     }
@@ -85,6 +90,10 @@ export default class Game {
 
     public get growth(): number {
         return this.itsState.growth
+    }
+
+    public get end(): boolean {
+        return this.itsState.end
     }
 
     private opposite(direction: string): boolean {

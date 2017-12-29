@@ -102,7 +102,7 @@ import Game from '../src/Game/Game'
         assert.isTrue(pos(3, 3).equals(game.snake.head))
     }
 
-    @test public dontHandleTurnIfSmaeAsPrevious() {
+    @test public dontHandleTurnIfSameAsPrevious() {
         let game = Game.start(this.smallMap).step()
         game = game.turn('r').turn('r').turn('u').step().step()
         assert.isTrue(pos(3, 3).equals(game.snake.head))
@@ -120,6 +120,27 @@ import Game from '../src/Game/Game'
         assert.isTrue(pos(20, 3).equals(game.snake.head))
     }
 
+    @test public deathOnObstacle() {
+        let game = Game.start(this.smallMap)
+        game = game.turn('l').step()
+        assert.isTrue(game.end)
+        assert.isTrue(pos(5, 2).equals(game.snake.head))
+    }
+
+    @test public deathOnItself() {
+        let game = Game.start(this.smallMap)
+        game = game
+            .step()
+            .turn('r')
+            .turn('d')
+            .turn('l')
+            .step()
+            .step()
+            .step()
+        assert.isTrue(game.end)
+        assert.isTrue(pos(5, 3).equals(game.snake.head))
+    }
+
     @test public snake() {
         const snake = new Snake([
             pos(1, 2),
@@ -129,7 +150,6 @@ import Game from '../src/Game/Game'
         assert.equal(3, snake.length)
         assert.isTrue(pos(2, 3).equals(snake.head))
         assert.isTrue(pos(1, 2).equals(snake.tail))
-
     }
 
 }

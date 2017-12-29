@@ -7,7 +7,8 @@ interface StateAttributes {
     snake: Snake,
     direction: string,
     growth: number
-    turns: string[]
+    turns: string[],
+    end: boolean
 
 }
 
@@ -19,7 +20,8 @@ export default class State {
             new Snake([map.startingPosition]),
             map.startingDirection,
             4,
-            []
+            [],
+            false
         )
     }
 
@@ -28,19 +30,22 @@ export default class State {
     private itsGrowth: number
     private itsDirection: string
     private itsTurns: string[]
+    private itsEnd: boolean
 
     private constructor(
         map: SnakeMap,
         snake: Snake,
         direction: string,
         growth: number,
-        turns: string[]
+        turns: string[],
+        end: boolean
     ) {
         this.itsMap = map
         this.itsSnake = snake
         this.itsDirection = direction
         this.itsGrowth = growth
         this.itsTurns = turns
+        this.itsEnd = end
     }
 
     public get map(): SnakeMap {
@@ -62,6 +67,9 @@ export default class State {
     public get turns(): string[] {
         return [...this.itsTurns]
     }
+    public get end(): boolean {
+        return this.itsEnd
+    }
 
     public transform(attributes: StateAttributes): State {
         return new State(
@@ -69,7 +77,8 @@ export default class State {
             attributes.snake,
             attributes.direction,
             attributes.growth,
-            attributes.turns
+            attributes.turns,
+            attributes.end
         )
     }
 
