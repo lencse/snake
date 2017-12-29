@@ -40,8 +40,20 @@ export default class Game {
         )
     }
 
-    public get state(): State {
-        return this.itsState
+    public get snake(): Snake {
+        return this.itsState.snake
+    }
+
+    public get map(): SnakeMap {
+        return this.itsState.map
+    }
+
+    public get direction(): string {
+        return this.itsState.direction
+    }
+
+    public get growth(): number {
+        return this.itsState.growth
     }
 
 }

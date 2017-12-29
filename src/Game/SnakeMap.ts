@@ -2,17 +2,17 @@ import { pos, Position } from './Position'
 
 export default class SnakeMap {
 
-    private width: number
-    private height: number
+    private itsWidth: number
+    private itsHeight: number
     private cells: Map<string, string> = new Map<string, string>()
-    private startingPosition: Position
-    private startingDirection: string
+    private itsStartingPosition: Position
+    private itsStartingDirection: string
 
     constructor(spec: string[]) {
-        this.height = spec.length
-        this.width = spec[0].length
+        this.itsHeight = spec.length
+        this.itsWidth = spec[0].length
         spec.forEach((line: string, rowIdx: number) => {
-            if (this.width !== line.length) {
+            if (this.itsWidth !== line.length) {
                 throw new Error('Invalid map format')
             }
             line.split('').forEach((elem: string, colIdx: number) => {
@@ -22,32 +22,32 @@ export default class SnakeMap {
                     return
                 }
                 if (['u', 'd', 'l', 'r'].find((needle) => elem === needle) !== undefined) {
-                    this.startingPosition = position
-                    this.startingDirection = elem
+                    this.itsStartingPosition = position
+                    this.itsStartingDirection = elem
                 }
                 this.cells.set(position.toString(), ' ')
             })
         })
     }
 
-    public getHeight(): number {
-        return this.height
+    public get height(): number {
+        return this.itsHeight
     }
 
-    public getWidth(): number {
-        return this.width
+    public get width(): number {
+        return this.itsWidth
     }
 
     public cell(position: Position): string {
         return this.cells.get(position.toString())
     }
 
-    public getStartingPosition(): Position {
-        return this.startingPosition
+    public get startingPosition(): Position {
+        return this.itsStartingPosition
     }
 
-    public getStartingDirection(): string {
-        return this.startingDirection
+    public get startingDirection(): string {
+        return this.itsStartingDirection
     }
 
 }

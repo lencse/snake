@@ -15,8 +15,8 @@ export default class State {
     public static init(map: SnakeMap): State {
         return new State(
             map,
-            new Snake([map.getStartingPosition()]),
-            map.getStartingDirection(),
+            new Snake([map.startingPosition]),
+            map.startingDirection,
             4
         )
     }

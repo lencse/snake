@@ -9,13 +9,13 @@ import Game from '../src/Game/Game'
 
     @test private map() {
         const map = this.smallMap()
-        assert.equal(6, map.getHeight())
-        assert.equal(5, map.getWidth())
+        assert.equal(6, map.height)
+        assert.equal(5, map.width)
         assert.equal(' ', map.cell(pos(3, 2)))
         assert.equal('x', map.cell(pos(2, 3)))
         assert.equal(' ', map.cell(pos(5, 2)))
-        assert.isTrue(pos(5, 2).equals(map.getStartingPosition()))
-        assert.equal('u', map.getStartingDirection())
+        assert.isTrue(pos(5, 2).equals(map.startingPosition))
+        assert.equal('u', map.startingDirection)
     }
 
     @test private game() {
@@ -23,37 +23,37 @@ import Game from '../src/Game/Game'
         assert.isTrue(game.isFree(pos(2, 2)))
         assert.isFalse(game.isFree(pos(2, 3)))
         assert.isFalse(game.isFree(pos(5, 2)))
-        assert.equal(4, game.state.growth)
-        assert.equal('u', game.state.direction)
-        assert.isTrue(new Snake([pos(5, 2)]).equals(game.state.snake))
+        assert.equal(4, game.growth)
+        assert.equal('u', game.direction)
+        assert.isTrue(new Snake([pos(5, 2)]).equals(game.snake))
     }
 
     @test private step() {
         const game = Game.start(this.smallMap()).step()
         assert.isFalse(game.isFree(pos(5, 2)))
         assert.isFalse(game.isFree(pos(4, 2)))
-        assert.equal(3, game.state.growth)
-        assert.equal('u', game.state.direction)
-        assert.equal(2, game.state.snake.length)
+        assert.equal(3, game.growth)
+        assert.equal('u', game.direction)
+        assert.equal(2, game.snake.length)
         assert.isTrue(new Snake([
             pos(5, 2),
             pos(4, 2)
-        ]).equals(game.state.snake))
+        ]).equals(game.snake))
     }
 
     @test private manyStep() {
         const initial = Game.start(this.largeEmptyMap())
-        assert.equal(20, initial.state.map.getHeight())
+        assert.equal(20, initial.map.height)
         let game = initial
         for (let i = 0; i < 4; ++i) {
             game = game.step()
         }
-        assert.equal(5, game.state.snake.length)
-        assert.isTrue(pos(5, 2).equals(game.state.snake.head))
+        assert.equal(5, game.snake.length)
+        assert.isTrue(pos(5, 2).equals(game.snake.head))
         game = game.step()
-        assert.equal(5, game.state.snake.length)
-        assert.isTrue(pos(6, 2).equals(game.state.snake.head))
-        assert.isTrue(pos(2, 2).equals(game.state.snake.tail))
+        assert.equal(5, game.snake.length)
+        assert.isTrue(pos(6, 2).equals(game.snake.head))
+        assert.isTrue(pos(2, 2).equals(game.snake.tail))
     }
 
     @test private turn() {
