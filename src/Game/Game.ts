@@ -26,8 +26,11 @@ export default class Game {
     }
 
     public step(): Game {
+        const turns = this.itsState.turns
         const growth = this.itsState.growth
-        const direction = this.itsState.direction
+        const direction = 0 === turns.length
+            ? this.itsState.direction
+            : turns[0]
         const snake = 0 === growth
             ? this.itsState.snake.move(direction)
             : this.itsState.snake.grow(direction)
@@ -35,7 +38,21 @@ export default class Game {
             this.itsState.transform({
                 direction,
                 snake,
-                growth: Math.max(0, growth - 1)
+                growth: Math.max(0, growth - 1),
+                turns: this.itsState.turns.slice(1)
+            })
+        )
+    }
+
+    public turn(direction: string): Game {
+        const turns = this.itsState.turns
+        turns.push(direction)
+        return new Game(
+            this.itsState.transform({
+                direction: this.itsState.direction,
+                snake: this.itsState.snake,
+                growth: this.itsState.growth,
+                turns,
             })
         )
     }

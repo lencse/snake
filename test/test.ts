@@ -7,8 +7,40 @@ import Game from '../src/Game/Game'
 
 @suite class SnakeTest {
 
-    @test private map() {
-        const map = this.smallMap()
+    private largeEmptyMap: SnakeMap =  new SnakeMap([
+        ' d                  ',
+        '                    ',
+        '                    ',
+        '                    ',
+        '                    ',
+        '                    ',
+        '                    ',
+        '                    ',
+        '                    ',
+        '                    ',
+        '                    ',
+        '                    ',
+        '                    ',
+        '                    ',
+        '                    ',
+        '                    ',
+        '                    ',
+        '                    ',
+        '                    ',
+        '                    ',
+    ])
+
+    private smallMap: SnakeMap = new SnakeMap([
+        'xxxxx',
+        'x x x',
+        'x   x',
+        'x   x',
+        'xu  x',
+        'xxxxx',
+    ])
+
+    @test public map() {
+        const map = this.smallMap
         assert.equal(6, map.height)
         assert.equal(5, map.width)
         assert.equal(' ', map.cell(pos(3, 2)))
@@ -18,8 +50,8 @@ import Game from '../src/Game/Game'
         assert.equal('u', map.startingDirection)
     }
 
-    @test private game() {
-        const game = Game.start(this.smallMap())
+    @test public game() {
+        const game = Game.start(this.smallMap)
         assert.isTrue(game.isFree(pos(2, 2)))
         assert.isFalse(game.isFree(pos(2, 3)))
         assert.isFalse(game.isFree(pos(5, 2)))
@@ -28,8 +60,8 @@ import Game from '../src/Game/Game'
         assert.isTrue(new Snake([pos(5, 2)]).equals(game.snake))
     }
 
-    @test private step() {
-        const game = Game.start(this.smallMap()).step()
+    @test public step() {
+        const game = Game.start(this.smallMap).step()
         assert.isFalse(game.isFree(pos(5, 2)))
         assert.isFalse(game.isFree(pos(4, 2)))
         assert.equal(3, game.growth)
@@ -41,8 +73,8 @@ import Game from '../src/Game/Game'
         ]).equals(game.snake))
     }
 
-    @test private manyStep() {
-        const initial = Game.start(this.largeEmptyMap())
+    @test public manyStep() {
+        const initial = Game.start(this.largeEmptyMap)
         assert.equal(20, initial.map.height)
         let game = initial
         for (let i = 0; i < 4; ++i) {
@@ -56,11 +88,21 @@ import Game from '../src/Game/Game'
         assert.isTrue(pos(2, 2).equals(game.snake.tail))
     }
 
-    @test private turn() {
-        const initial = Game.start(this.smallMap())
+    @test public turn() {
+        let game = Game.start(this.smallMap).step()
+        game = game.turn('r').step()
+        assert.isTrue(pos(4, 3).equals(game.snake.head))
+        game = game.turn('u').step()
+        assert.isTrue(pos(3, 3).equals(game.snake.head))
     }
 
-    @test private snake() {
+    @test public turnsInOneRound() {
+        let game = Game.start(this.smallMap).step()
+        game = game.turn('r').turn('u').step().step()
+        assert.isTrue(pos(3, 3).equals(game.snake.head))
+    }
+
+    @test public snake() {
         const snake = new Snake([
             pos(1, 2),
             pos(2, 2),
@@ -70,42 +112,6 @@ import Game from '../src/Game/Game'
         assert.isTrue(pos(2, 3).equals(snake.head))
         assert.isTrue(pos(1, 2).equals(snake.tail))
 
-    }
-
-    private smallMap(): SnakeMap {
-        return new SnakeMap([
-            'xxxxx',
-            'x x x',
-            'x   x',
-            'x   x',
-            'xu  x',
-            'xxxxx',
-        ])
-    }
-
-    private largeEmptyMap(): SnakeMap {
-        return new SnakeMap([
-            ' d                  ',
-            '                    ',
-            '                    ',
-            '                    ',
-            '                    ',
-            '                    ',
-            '                    ',
-            '                    ',
-            '                    ',
-            '                    ',
-            '                    ',
-            '                    ',
-            '                    ',
-            '                    ',
-            '                    ',
-            '                    ',
-            '                    ',
-            '                    ',
-            '                    ',
-            '                    ',
-        ])
     }
 
 }
