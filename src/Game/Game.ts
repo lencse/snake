@@ -5,14 +5,17 @@ import State from './State'
 
 export default class Game {
 
-    public static start(map: SnakeMap): Game {
-        return new Game(State.init(map))
+    public static start(map: SnakeMap, pillPlacer: (game: Game) => Position): Game {
+        return new Game(State.init(map, null), pillPlacer)
     }
 
     private itsState: State
 
-    private constructor(state: State) {
+    private pillPlacer: (game: Game) => Position
+
+    private constructor(state: State, pillPlacer: (game: Game) => Position) {
         this.itsState = state
+        this.pillPlacer = pillPlacer
     }
 
     public isFree(position: Position): boolean {
@@ -45,6 +48,9 @@ export default class Game {
         if (this.map.width + 1 === next.column) {
             next = pos(next.row, 1)
         }
+        const pill = null === this.pill
+            ? this.pillPlacer(this)
+            : this.pill
         const snake = end
             ? this.itsState.snake
             : 0 === growth
@@ -56,8 +62,9 @@ export default class Game {
                 snake,
                 growth: Math.max(0, growth - 1),
                 turns: this.itsState.turns.slice(1),
-                end
-            })
+                end,
+                pill
+            }), this.pillPlacer
         )
     }
 
@@ -71,8 +78,9 @@ export default class Game {
                 snake: this.itsState.snake,
                 growth: this.itsState.growth,
                 turns,
-                end: this.itsState.end
-            })
+                end: this.itsState.end,
+                pill: this.itsState.pill
+            }), this.pillPlacer
         )
     }
 
@@ -94,6 +102,10 @@ export default class Game {
 
     public get end(): boolean {
         return this.itsState.end
+    }
+
+    public get pill(): Position {
+        return this.itsState.pill
     }
 
     private opposite(direction: string): boolean {

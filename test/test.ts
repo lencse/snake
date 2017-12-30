@@ -1,6 +1,6 @@
 import { suite, test, slow, timeout, skip, only } from 'mocha-typescript'
 import { assert } from 'chai'
-import { pos } from '../src/Game/Position'
+import { pos, Position } from '../src/Game/Position'
 import SnakeMap from '../src/Game/SnakeMap'
 import { Snake } from '../src/Game/Snake'
 import Game from '../src/Game/Game'
@@ -51,7 +51,7 @@ import Game from '../src/Game/Game'
     }
 
     @test public game() {
-        const game = Game.start(this.smallMap)
+        const game = Game.start(this.smallMap, this.placerMock54)
         assert.isTrue(game.isFree(pos(2, 2)))
         assert.isFalse(game.isFree(pos(2, 3)))
         assert.isFalse(game.isFree(pos(5, 2)))
@@ -61,7 +61,7 @@ import Game from '../src/Game/Game'
     }
 
     @test public step() {
-        const game = Game.start(this.smallMap).step()
+        const game = Game.start(this.smallMap, this.placerMock54).step()
         assert.isFalse(game.isFree(pos(5, 2)))
         assert.isFalse(game.isFree(pos(4, 2)))
         assert.equal(3, game.growth)
@@ -74,7 +74,7 @@ import Game from '../src/Game/Game'
     }
 
     @test public manyStep() {
-        const initial = Game.start(this.largeEmptyMap)
+        const initial = Game.start(this.largeEmptyMap, this.placerMock54)
         assert.equal(20, initial.map.height)
         let game = initial
         for (let i = 0; i < 4; ++i) {
@@ -86,10 +86,15 @@ import Game from '../src/Game/Game'
         assert.equal(5, game.snake.length)
         assert.isTrue(pos(6, 2).equals(game.snake.head))
         assert.isTrue(pos(2, 2).equals(game.snake.tail))
+        for (let i = 0; i < 4; ++i) {
+            game = game.step()
+        }
+        assert.equal(0, game.growth)
+        assert.equal(5, game.snake.length)
     }
 
     @test public turn() {
-        let game = Game.start(this.smallMap).step()
+        let game = Game.start(this.smallMap, this.placerMock54).step()
         game = game.turn('r').step()
         assert.isTrue(pos(4, 3).equals(game.snake.head))
         game = game.turn('u').step()
@@ -97,38 +102,38 @@ import Game from '../src/Game/Game'
     }
 
     @test public turnsInOneRound() {
-        let game = Game.start(this.smallMap).step()
+        let game = Game.start(this.smallMap, this.placerMock54).step()
         game = game.turn('r').turn('u').step().step()
         assert.isTrue(pos(3, 3).equals(game.snake.head))
     }
 
     @test public dontHandleTurnIfSameAsPrevious() {
-        let game = Game.start(this.smallMap).step()
+        let game = Game.start(this.smallMap, this.placerMock54).step()
         game = game.turn('r').turn('r').turn('u').step().step()
         assert.isTrue(pos(3, 3).equals(game.snake.head))
     }
 
     @test public dontAllowOppositeDirection() {
-        let game = Game.start(this.smallMap)
+        let game = Game.start(this.smallMap, this.placerMock54)
         game = game.turn('d').step()
         assert.isTrue(pos(4, 2).equals(game.snake.head))
     }
 
     @test public goThroughWall() {
-        let game = Game.start(this.largeEmptyMap)
+        let game = Game.start(this.largeEmptyMap, this.placerMock54)
         game = game.turn('r').turn('u').step().step()
         assert.isTrue(pos(20, 3).equals(game.snake.head))
     }
 
     @test public deathOnObstacle() {
-        let game = Game.start(this.smallMap)
+        let game = Game.start(this.smallMap, this.placerMock54)
         game = game.turn('l').step()
         assert.isTrue(game.end)
         assert.isTrue(pos(5, 2).equals(game.snake.head))
     }
 
     @test public deathOnItself() {
-        let game = Game.start(this.smallMap)
+        let game = Game.start(this.smallMap, this.placerMock54)
         game = game
             .step()
             .turn('r')
@@ -141,6 +146,12 @@ import Game from '../src/Game/Game'
         assert.isTrue(pos(5, 3).equals(game.snake.head))
     }
 
+    @test public placePill() {
+        let game = Game.start(this.largeEmptyMap, this.placerMock72)
+        game = game.step()
+        assert.isTrue(pos(7, 2).equals(game.pill))
+    }
+
     @test public snake() {
         const snake = new Snake([
             pos(1, 2),
@@ -150,6 +161,14 @@ import Game from '../src/Game/Game'
         assert.equal(3, snake.length)
         assert.isTrue(pos(2, 3).equals(snake.head))
         assert.isTrue(pos(1, 2).equals(snake.tail))
+    }
+
+    private placerMock54(game: Game): Position {
+        return pos(5, 4)
+    }
+
+    private placerMock72(game: Game): Position {
+        return pos(7, 2)
     }
 
 }
