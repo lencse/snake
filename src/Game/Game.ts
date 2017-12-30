@@ -37,7 +37,7 @@ export default class Game {
             ? this.itsState.direction
             : turns[0]
         let next = this.snake.head.neighbour(direction)
-        const end = !this.isFree(next)
+        const end = !(this.isFree(next) || this.itsState.snake.tail.equals(next) && 0 === this.itsState.growth)
         if (0 === next.row) {
             next = pos(this.map.height, next.column)
         }

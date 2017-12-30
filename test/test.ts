@@ -133,7 +133,11 @@ import Game from '../src/Game/Game'
     }
 
     @test public deathOnItself() {
-        let game = Game.start(this.smallMap, this.placerMock54)
+        const pills = [
+            pos(5, 4),
+            pos(4, 2)
+        ]
+        let game = Game.start(this.smallMap, (g) => pills.pop())
         game = game
             .step()
             .turn('r')
@@ -142,6 +146,7 @@ import Game from '../src/Game/Game'
             .step()
             .step()
             .step()
+
         assert.isTrue(game.end)
         assert.isTrue(pos(5, 3).equals(game.snake.head))
     }
@@ -185,6 +190,23 @@ import Game from '../src/Game/Game'
         assert.equal(2, game.growth)
         assert.equal(6, game.snake.length)
         assert.isTrue(pos(6, 3).equals(game.pill))
+    }
+
+    @test public dontBiteOwnTail() {
+        const pills = [
+            pos(8, 8),
+            pos(3, 2)
+        ]
+        let game = Game.start(this.largeEmptyMap, (g) => pills.pop())
+        for (let i = 0; i < 10; ++i) {
+            game = game.step()
+        }
+        game =  game.turn('r').turn('u')
+        for (let i = 0; i < 4; ++i) {
+            game = game.step()
+        }
+        game = game.turn('l').step()
+        assert.isFalse(game.end)
     }
 
     @test public snake() {
