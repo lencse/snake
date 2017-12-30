@@ -39,6 +39,11 @@ import Game from '../src/Game/Game'
         'xxxxx',
     ])
 
+    private placerMockPills: Position[] = [
+        pos(6, 3),
+        pos(7, 2)
+    ]
+
     @test public map() {
         const map = this.smallMap
         assert.equal(6, map.height)
@@ -152,6 +157,17 @@ import Game from '../src/Game/Game'
         assert.isTrue(pos(7, 2).equals(game.pill))
     }
 
+    @test public eatPill() {
+        let game = Game.start(this.largeEmptyMap, this.placerMock7263.bind(this))
+        for (let i = 0; i < 6; ++i) {
+            game = game.step()
+        }
+        assert.isTrue(pos(7, 2).equals(game.snake.head))
+        assert.equal(2, game.growth)
+        assert.equal(6, game.snake.length)
+        assert.isTrue(pos(6, 3).equals(game.pill))
+    }
+
     @test public snake() {
         const snake = new Snake([
             pos(1, 2),
@@ -169,6 +185,10 @@ import Game from '../src/Game/Game'
 
     private placerMock72(game: Game): Position {
         return pos(7, 2)
+    }
+
+    private placerMock7263(game: Game): Position {
+        return this.placerMockPills.pop()
     }
 
 }

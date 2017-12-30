@@ -30,7 +30,6 @@ export default class Game {
 
     public step(): Game {
         const turns = this.itsState.turns
-        const growth = this.itsState.growth
         const direction = 0 === turns.length
             ? this.itsState.direction
             : turns[0]
@@ -48,14 +47,17 @@ export default class Game {
         if (this.map.width + 1 === next.column) {
             next = pos(next.row, 1)
         }
-        const pill = null === this.pill
-            ? this.pillPlacer(this)
-            : this.pill
+        const growth = this.itsState.pill && this.itsState.pill.equals(next)
+            ? this.itsState.growth + 3
+            : this.itsState.growth
         const snake = end
             ? this.itsState.snake
             : 0 === growth
                 ? this.itsState.snake.move(next)
                 : this.itsState.snake.grow(next)
+        const pill = null === this.pill || this.itsState.pill.equals(next)
+            ? this.pillPlacer(this)
+            : this.pill
         return new Game(
             this.itsState.transform({
                 direction,
