@@ -13,6 +13,7 @@ export default class Browser {
     constructor(window: Window, document: Document) {
         this.window = window
         this.document = document
+        this.painter = new Painter(this.document.getElementById('game') as HTMLCanvasElement)
     }
 
     public init() {
@@ -31,7 +32,6 @@ export default class Browser {
             ]),
             Game.randomPillPlacer
         )
-        this.painter = new Painter(this.document.getElementById('game') as HTMLCanvasElement)
         this.window.setInterval(this.heartbeat.bind(this), 175)
         this.document.body.addEventListener('keydown', this.onKeyDown.bind(this))
     }
