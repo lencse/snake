@@ -55,9 +55,12 @@ export default class Game {
             : 0 === growth
                 ? this.itsState.snake.move(next)
                 : this.itsState.snake.grow(next)
-        const pill = null === this.pill || this.itsState.pill.equals(next)
+        let pill = null === this.pill || this.itsState.pill.equals(next)
             ? this.pillPlacer(this)
             : this.pill
+        while (!this.isFree(pill)) {
+            pill = this.pillPlacer(this)
+        }
         return new Game(
             this.itsState.transform({
                 direction,
