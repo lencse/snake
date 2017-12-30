@@ -39,21 +39,6 @@ import Game from '../src/Game/Game'
         'xxxxx',
     ])
 
-    private placerMockPills: Position[] = [
-        pos(6, 3),
-        pos(7, 2)
-    ]
-
-    private placerMockPillsOnSmallMap: Position[] = [
-        pos(5, 2),
-        pos(2, 2)
-    ]
-
-    private placerMockPillsOnSmallMap2: Position[] = [
-        pos(1, 2),
-        pos(2, 2)
-    ]
-
     @test public map() {
         const map = this.smallMap
         assert.equal(6, map.height)
@@ -168,19 +153,31 @@ import Game from '../src/Game/Game'
     }
 
     @test public dontPlacePillOnSnake() {
-        let game = Game.start(this.smallMap, this.placerMockOnSmallMap.bind(this))
+        const pills = [
+            pos(5, 2),
+            pos(2, 2)
+        ]
+        let game = Game.start(this.smallMap, (g) => pills.pop())
         game = game.step()
         assert.isTrue(pos(2, 2).equals(game.pill))
     }
 
     @test public dontPlacePillOnObstacle() {
-        let game = Game.start(this.smallMap, this.placerMockOnSmallMap2.bind(this))
+        const pills = [
+            pos(1, 2),
+            pos(2, 2)
+        ]
+        let game = Game.start(this.smallMap, (g) => pills.pop())
         game = game.step()
         assert.isTrue(pos(2, 2).equals(game.pill))
     }
 
     @test public eatPill() {
-        let game = Game.start(this.largeEmptyMap, this.placerMock7263.bind(this))
+        const pills = [
+            pos(6, 3),
+            pos(7, 2)
+        ]
+        let game = Game.start(this.largeEmptyMap, (g) => pills.pop())
         for (let i = 0; i < 6; ++i) {
             game = game.step()
         }
@@ -207,18 +204,6 @@ import Game from '../src/Game/Game'
 
     private placerMock72(game: Game): Position {
         return pos(7, 2)
-    }
-
-    private placerMock7263(game: Game): Position {
-        return this.placerMockPills.pop()
-    }
-
-    private placerMockOnSmallMap(game: Game): Position {
-        return this.placerMockPillsOnSmallMap.pop()
-    }
-
-    private placerMockOnSmallMap2(game: Game): Position {
-        return this.placerMockPillsOnSmallMap2.pop()
     }
 
 }

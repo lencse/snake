@@ -29,6 +29,9 @@ export default class Game {
     }
 
     public step(): Game {
+        if (this.end) {
+            return this
+        }
         const turns = this.itsState.turns
         const direction = 0 === turns.length
             ? this.itsState.direction
