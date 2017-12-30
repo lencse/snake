@@ -44,7 +44,7 @@
     "watch-webpack": "webpack-dev-server --config ./build/ci/webpack.config.js --port 9666",
     "watch": "yarn run clean && yarn build-typescript && (yarn watch-typescript & yarn watch-webpack)",
     "watch-test": "mocha --watch build/test",
-    "watch-build-test": "yarn watch & yarn watch-test",
+    "watch-build-test": "yarn watch-typescript & yarn watch-test",
     "lint": "tslint -c tslint.json src/**/*.ts test/**/*.ts ci/**/*.ts"
   }
 }

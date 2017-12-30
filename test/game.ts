@@ -5,7 +5,7 @@ import SnakeMap from '../src/Game/SnakeMap'
 import { Snake } from '../src/Game/Snake'
 import Game from '../src/Game/Game'
 
-@suite class SnakeTest {
+@suite class GameTest {
 
     private largeEmptyMap: SnakeMap =  new SnakeMap([
         ' d                  ',

@@ -9,6 +9,11 @@ export default class Game {
         return new Game(State.init(map, null), pillPlacer)
     }
 
+    public static randomPillPlacer(game: Game): Position {
+        const rand = (max: number) => Math.floor(Math.random() * max) + 1
+        return pos(rand(game.map.height), rand(game.map.width))
+    }
+
     private itsState: State
 
     private pillPlacer: (game: Game) => Position
