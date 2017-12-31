@@ -8,6 +8,7 @@ before_script:
     - echo "NODE_ENV=$NODE_ENV"
     - NODE_ENV=$NODE_ENV yarn build
 script:
+    - yarn lint
     - yarn test
 deploy:
     provider: pages
