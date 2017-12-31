@@ -74,60 +74,59 @@ import Game from '../src/Game/Game'
     }
 
     @test public manyStep() {
-        const initial = Game.start(this.largeEmptyMap, this.placerMock54)
-        assert.equal(20, initial.map.height)
-        let game = initial
+        const game = Game.start(this.largeEmptyMap, this.placerMock54)
+        assert.equal(20, game.map.height)
         for (let i = 0; i < 4; ++i) {
-            game = game.step()
+            game.step()
         }
         assert.equal(5, game.snake.length)
         assert.isTrue(pos(5, 2).equals(game.snake.head))
-        game = game.step()
+        game.step()
         assert.equal(5, game.snake.length)
         assert.isTrue(pos(6, 2).equals(game.snake.head))
         assert.isTrue(pos(2, 2).equals(game.snake.tail))
         for (let i = 0; i < 4; ++i) {
-            game = game.step()
+            game.step()
         }
         assert.equal(0, game.growth)
         assert.equal(5, game.snake.length)
     }
 
     @test public turn() {
-        let game = Game.start(this.smallMap, this.placerMock54).step()
-        game = game.turn('r').step()
+        const game = Game.start(this.smallMap, this.placerMock54).step()
+        game.turn('r').step()
         assert.isTrue(pos(4, 3).equals(game.snake.head))
-        game = game.turn('u').step()
+        game.turn('u').step()
         assert.isTrue(pos(3, 3).equals(game.snake.head))
     }
 
     @test public turnsInOneRound() {
-        let game = Game.start(this.smallMap, this.placerMock54).step()
-        game = game.turn('r').turn('u').step().step()
+        const game = Game.start(this.smallMap, this.placerMock54).step()
+        game.turn('r').turn('u').step().step()
         assert.isTrue(pos(3, 3).equals(game.snake.head))
     }
 
     @test public dontHandleTurnIfSameAsPrevious() {
-        let game = Game.start(this.smallMap, this.placerMock54).step()
-        game = game.turn('r').turn('r').turn('u').step().step()
+        const game = Game.start(this.smallMap, this.placerMock54).step()
+        game.turn('r').turn('r').turn('u').step().step()
         assert.isTrue(pos(3, 3).equals(game.snake.head))
     }
 
     @test public dontAllowOppositeDirection() {
-        let game = Game.start(this.smallMap, this.placerMock54)
-        game = game.turn('d').step()
+        const game = Game.start(this.smallMap, this.placerMock54)
+        game.turn('d').step()
         assert.isTrue(pos(4, 2).equals(game.snake.head))
     }
 
     @test public goThroughWall() {
-        let game = Game.start(this.largeEmptyMap, this.placerMock54)
-        game = game.turn('r').turn('u').step().step()
+        const game = Game.start(this.largeEmptyMap, this.placerMock54)
+        game.turn('r').turn('u').step().step()
         assert.isTrue(pos(20, 3).equals(game.snake.head))
     }
 
     @test public deathOnObstacle() {
-        let game = Game.start(this.smallMap, this.placerMock54)
-        game = game.turn('l').step()
+        const game = Game.start(this.smallMap, this.placerMock54)
+        game.turn('l').step()
         assert.isTrue(game.end)
         assert.isTrue(pos(5, 2).equals(game.snake.head))
     }
@@ -137,9 +136,8 @@ import Game from '../src/Game/Game'
             pos(5, 4),
             pos(4, 2)
         ]
-        let game = Game.start(this.smallMap, (g) => pills.pop())
-        game = game
-            .step()
+        const game = Game.start(this.smallMap, (g) => pills.pop())
+        game.step()
             .turn('r')
             .turn('d')
             .turn('l')
@@ -152,8 +150,8 @@ import Game from '../src/Game/Game'
     }
 
     @test public placePill() {
-        let game = Game.start(this.largeEmptyMap, this.placerMock72)
-        game = game.step()
+        const game = Game.start(this.largeEmptyMap, this.placerMock72)
+        game.step()
         assert.isTrue(pos(7, 2).equals(game.pill))
     }
 
@@ -162,8 +160,8 @@ import Game from '../src/Game/Game'
             pos(5, 2),
             pos(2, 2)
         ]
-        let game = Game.start(this.smallMap, (g) => pills.pop())
-        game = game.step()
+        const game = Game.start(this.smallMap, (g) => pills.pop())
+        game.step()
         assert.isTrue(pos(2, 2).equals(game.pill))
     }
 
@@ -172,8 +170,8 @@ import Game from '../src/Game/Game'
             pos(1, 2),
             pos(2, 2)
         ]
-        let game = Game.start(this.smallMap, (g) => pills.pop())
-        game = game.step()
+        const game = Game.start(this.smallMap, (g) => pills.pop())
+        game.step()
         assert.isTrue(pos(2, 2).equals(game.pill))
     }
 
@@ -182,9 +180,9 @@ import Game from '../src/Game/Game'
             pos(6, 3),
             pos(7, 2)
         ]
-        let game = Game.start(this.largeEmptyMap, (g) => pills.pop())
+        const game = Game.start(this.largeEmptyMap, (g) => pills.pop())
         for (let i = 0; i < 6; ++i) {
-            game = game.step()
+            game.step()
         }
         assert.isTrue(pos(7, 2).equals(game.snake.head))
         assert.equal(2, game.growth)
@@ -197,15 +195,15 @@ import Game from '../src/Game/Game'
             pos(8, 8),
             pos(3, 2)
         ]
-        let game = Game.start(this.largeEmptyMap, (g) => pills.pop())
+        const game = Game.start(this.largeEmptyMap, (g) => pills.pop())
         for (let i = 0; i < 10; ++i) {
-            game = game.step()
+            game.step()
         }
-        game =  game.turn('r').turn('u')
+        game.turn('r').turn('u')
         for (let i = 0; i < 4; ++i) {
-            game = game.step()
+            game.step()
         }
-        game = game.turn('l').step()
+        game.turn('l').step()
         assert.isFalse(game.end)
     }
 

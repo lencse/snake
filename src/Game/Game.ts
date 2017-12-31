@@ -15,7 +15,6 @@ export default class Game {
     }
 
     private itsState: State
-
     private pillPlacer: (game: Game) => Position
 
     private constructor(state: State, pillPlacer: (game: Game) => Position) {
@@ -69,32 +68,32 @@ export default class Game {
         while (!this.isFree(pill)) {
             pill = this.pillPlacer(this)
         }
-        return new Game(
-            this.itsState.transform({
-                direction,
-                snake,
-                growth: Math.max(0, growth - 1),
-                turns: this.itsState.turns.slice(1),
-                end,
-                pill
-            }), this.pillPlacer
-        )
+        this.itsState = this.itsState.transform({
+            direction,
+            snake,
+            growth: Math.max(0, growth - 1),
+            turns: this.itsState.turns.slice(1),
+            end,
+            pill
+        })
+
+        return this
     }
 
     public turn(direction: string): Game {
-        const turns = direction === this.itsState.turns.pop() || this.opposite(direction)
-            ? this.itsState.turns
-            : this.itsState.turns.concat([direction])
-        return new Game(
-            this.itsState.transform({
-                direction: this.itsState.direction,
-                snake: this.itsState.snake,
-                growth: this.itsState.growth,
-                turns,
-                end: this.itsState.end,
-                pill: this.itsState.pill
-            }), this.pillPlacer
-        )
+        if (direction === this.itsState.turns.pop() || this.opposite(direction)) {
+            return this
+        }
+        this.itsState = this.itsState.transform({
+            direction: this.itsState.direction,
+            snake: this.itsState.snake,
+            growth: this.itsState.growth,
+            turns: this.itsState.turns.concat([direction]),
+            end: this.itsState.end,
+            pill: this.itsState.pill
+        })
+
+        return this
     }
 
     public get snake(): Snake {

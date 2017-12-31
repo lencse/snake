@@ -37,11 +37,7 @@ export default class Browser {
     }
 
     private onKeyDown(event: KeyboardEvent) {
-        const codes = []
-        codes[37] = 'l'
-        codes[38] = 'u'
-        codes[39] = 'r'
-        codes[40] = 'd'
+        const codes = { 37: 'l', 38: 'u', 39: 'r', 40: 'd' }
         const direction = codes[event.keyCode]
         if (direction) {
             this.game = this.game.turn(direction)
@@ -49,7 +45,7 @@ export default class Browser {
     }
 
     private heartbeat() {
-        this.game = this.game.step()
+        this.game.step()
         this.painter.paint(this.game)
     }
 
