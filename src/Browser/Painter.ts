@@ -38,7 +38,7 @@ export default class Painter {
         this.context.fillStyle = '#191'
         game.snake.positions.forEach((position: Position) => {
             this.context.beginPath()
-            this.context.arc((position.column - 1) * 35 + 17.5, (position.row - 1) * 35 + 17.5, 16.5, 0, 2*Math.PI)
+            this.context.arc((position.column - 1) * 35 + 17.5, (position.row - 1) * 35 + 17.5, game.snake.head.equals(position) ? 14.5 : 17, 0, 2*Math.PI)
             this.context.fill()
         })
     }

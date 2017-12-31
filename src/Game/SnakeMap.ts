@@ -17,7 +17,7 @@ export default class SnakeMap {
             }
             line.split('').forEach((elem: string, colIdx: number) => {
                 const position = pos(rowIdx + 1, colIdx + 1)
-                if ('x' === elem) {
+                if ('X' === elem) {
                     this.cells.set(position.toString(), 'x')
                     return
                 }

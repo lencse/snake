@@ -5,33 +5,21 @@ import Painter from './Painter'
 
 export default class Browser {
 
-    private window: Window
+    private window: WindowTimers
     private document: Document
     private game: Game
     private painter: Painter
+    private maps: SnakeMap[] = []
 
-    constructor(window: Window, document: Document) {
+    constructor(window: WindowTimers, document: Document) {
         this.window = window
         this.document = document
         this.painter = new Painter(this.document.getElementById('game') as HTMLCanvasElement)
     }
 
     public init() {
-        this.game = Game.start(
-            new SnakeMap([
-                'x xxxxxxxx',
-                'xd       x',
-                'x        x',
-                'x        x',
-                'x        x',
-                'x        x',
-                'x        x',
-                'x        x',
-                'x        x',
-                'x xxxxxxxx'
-            ]),
-            Game.randomPillPlacer
-        )
+        this.initMaps()
+        this.game = Game.start(this.maps[1], Game.randomPillPlacer)
         this.window.setInterval(this.heartbeat.bind(this), 175)
         this.document.body.addEventListener('keydown', this.onKeyDown.bind(this))
     }
@@ -47,6 +35,14 @@ export default class Browser {
     private heartbeat() {
         this.game.step()
         this.painter.paint(this.game)
+    }
+
+    private initMaps() {
+        const mapElements = this.document.getElementsByClassName('map')
+        for (let i = 0; i < mapElements.length; ++i) {
+            this.maps.push(new SnakeMap(mapElements.item(i).innerHTML.trim().split(/\s+/)))
+        }
+
     }
 
 }
