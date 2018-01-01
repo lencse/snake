@@ -19,16 +19,17 @@ export default class Browser {
 
     public init() {
         this.initMaps()
-        this.game = Game.start(this.maps[1], Game.randomPillPlacer)
+        this.game = Game.start(this.maps[2], Game.randomPillPlacer)
         this.window.setInterval(this.heartbeat.bind(this), 175)
         this.document.body.addEventListener('keydown', this.onKeyDown.bind(this))
     }
 
     private onKeyDown(event: KeyboardEvent) {
-        const codes = { 37: 'l', 38: 'u', 39: 'r', 40: 'd' }
+        const codes = { 37: 'l', 38: 'u', 39: 'r', 40: 'd', 87: 'u', 65: 'l', 83: 'd', 68: 'r' }
         const direction = codes[event.keyCode]
         if (direction) {
-            this.game = this.game.turn(direction)
+            this.game.turn(direction)
+            event.preventDefault()
         }
     }
 
