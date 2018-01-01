@@ -19,6 +19,7 @@ export default class Browser {
 
     public init() {
         this.initMaps()
+        this.generateLinks()
         this.game = Game.start(this.maps[2], Game.randomPillPlacer)
         this.window.setInterval(this.heartbeat.bind(this), 175)
         this.document.body.addEventListener('keydown', this.onKeyDown.bind(this))
@@ -43,7 +44,19 @@ export default class Browser {
         for (let i = 0; i < mapElements.length; ++i) {
             this.maps.push(new SnakeMap(mapElements.item(i).innerHTML.trim().split(/\s+/)))
         }
+    }
 
+    private generateLinks() {
+        const root = this.document.getElementById('chooser')
+        this.maps.forEach((map: SnakeMap) => {
+            const a = document.createElement('a')
+            a.setAttribute('href', '#')
+            a.innerHTML = 'Map'
+            a.addEventListener('click', () => {
+                this.game = Game.start(map, Game.randomPillPlacer)
+            })
+            root.appendChild(a)
+        })
     }
 
 }
